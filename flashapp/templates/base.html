@@ -1,163 +1,109 @@
-{% load static %}
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<title>Flashcards Maker</title>
+    <head>
+        <style type="text/css">
+            .sidenav{
+                height: 100%;
+                width: 100px;
+                position: fixed;
+                z-index: 1;
+                top:0;
+                left:0;
+                background-color: #111;
+                overflow-x: hidden;
+                padding-top: 20px;
+                font-size: 10px;
+            }
+            .sidenav p {
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 15px;
+                color: #818181;
+                display:block;
+            }
+            .sidenav a {
+                padding: 6px 8px 6px 16px;
+                text-decoration: none;
+                font-size: 15px;
+                color: #818181;
+                display:block;
+            }
+            .sidenav a:hover {
+                color: #f1f1f1;
+                }
+            .main{
+                margin-left:40px;
+                padding: 0px 10px;
+                font-size: 15px;
+            }
 
-	<!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        </style>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="{% static '/css/open-iconic-bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static '/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static '/css/icomoon.css' %}">
-    <link rel="stylesheet" href="{% static '/css/style.css' %}">
-    <link rel="stylesheet" href="{% static '/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 
-</head>
-<body>
-	<div id="colorlib-page">
+        <title>{% block title %}Beethoven Website{% endblock %}</title>
 
-		<!-- COLORLIB-ASIDE - CONTENT LEFT -->
-        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
-        <aside id="colorlib-aside" role="complementary" class="js-fullheight">
-            <nav id="colorlib-main-menu" role="navigation">
-                <ul>
+    </head>
+
+    <body>
+        <!--<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">-->
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse mt-2" id="collapse_target">
+                <ul class="navbar-nav">
                     {% if user.is_authenticated %}
-                        <li><span>{{user.username}}&nbsp</span>><a href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}">Login</a></li>
-                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            {{ user.get_username }}</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            </svg>
+                            Logout </a></li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link"  href="/login">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x-fill" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                            Login</a></li>
+                {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link"  href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                                    <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                            </svg>
+                            Home</a></li>
                 </ul>
-            </nav>
-
-            <div class="colorlib-footer">
-                <div class="mb-4">
-                    <h3>&nbsp</h3>
-                    <form class="colorlib-subscribe-form">
-                        <div class="form-group d-flex">
-                            <div class="icon"><span class="icon-paper-plane"></span></div>
-                          <button class="btn-dark" style="color:white;">Export Cards as a CSV File</button>
-                        </div>
-                    </form>
-                </div>
-                <p class="pfooter"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
             </div>
-        </aside> 
+        </nav>
 
 
-        <div id="colorlib-main">
-        <section class="ftco-section ftco-no-pt ftco-no-pb">
-        <div class="container">
-            <div class="row d-flex">
-
-            	<!-- CONTENT Middle -->
-            	<div class="col-xl-8 py-5 px-md-5">
-	            	{% block content %}
-		    		{% endblock %}
-		    	</div>
-
-		    	<!-- CONTENT Right -->
-                <div class="col-xl-4 sidebar ftco-animate bg-light pt-5">
-                    <div class="sidebar-box pt-md-4">
-                      <form method="GET"  class="search-form">
-
-                        <div class="form-group">
-                          <span class="icon icon-search"></span>
-                          <input name='keywords' type="text" class="form-control" placeholder="Type a keyword and hit enter">
-                        </div>
-                      </form>
-                    </div>
-                    
-                   
-
-	                <div class="sidebar-box ftco-animate">
-	                  <h3 class="sidebar-heading">Popular Cards</h3>
-	                  
-	                  <div class="block-21 mb-4 d-flex">
-	                    <div class="text">
-	                      <h3 class="heading"><a href="#">{{popular_cards.0}}</a></h3>
-	                    </div>
-	                  </div>
-
-	                  <div class="block-21 mb-4 d-flex">
-	                    <a class="blog-img mr-4" style="background-image: url({% static 'images/Complexity.png' %});"></a>
-	                    <div class="text">
-	                      <h3 class="heading"><a href="#">{{popular_cards.1}}</a></h3>
-	                    </div>
-	                  </div>
-
-	                  <div class="block-21 mb-4 d-flex">
-	                    <a class="blog-img mr-4" style="background-image: url({% static 'images/Data-Structures.png' %});"></a>
-	                    <div class="text">
-	                      <h3 class="heading"><a href="#">{{popular_cards.2}}</a></h3>                  
-	                    </div>
-	                  </div>
-
-	                </div>
-
-	                <div class="sidebar-box ftco-animate">
-	                  <h3 class="sidebar-heading">Tag Cloud</h3>
-	                  <ul class="tagcloud">
-	                    <a href="#" class="tag-cloud-link">queue</a>
-	                    <a href="#" class="tag-cloud-link">algorithm</a>
-	                    <a href="#" class="tag-cloud-link">analysis</a>
-	                    <a href="#" class="tag-cloud-link">complexity</a>
-	                    <a href="#" class="tag-cloud-link">time</a>
-	                    <a href="#" class="tag-cloud-link">linked list</a>
-	                    <a href="#" class="tag-cloud-link">o-notation</a>
-                        <a href="#" class="tag-cloud-link">sort</a>
-	                  </ul>
-	                </div>
-
-	                <div class="sidebar-box subs-wrap img py-4" style="background-image: url({% static 'images/bg_1.jpg' %});">
-	                                <div class="overlay"></div>
-	                                <h3 class="mb-4 sidebar-heading">Newsletter</h3>
-	                                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia</p>
-	                  <form action="#" class="subscribe-form">
-	                    <div class="form-group">
-	                      <input type="text" class="form-control" placeholder="Email Address">
-	                      <input type="submit" value="Subscribe" class="mt-2 btn btn-white submit">
-	                    </div>
-	                  </form>
-	                </div>
-                </div><!-- END COL -->
+        <div id="content", name="content", class="main mt-3">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <h1 class="mt-2">Flash Cards</h1>
+                    <hr class="mt-0 mb-4">
+                    {% block content %}
+                    {% endblock %}
+                </div>
             </div>
         </div>
-    	</section>
-    </div><!-- END COLORLIB-MAIN -->
 
-
-
-    </div><!-- END COLORLIB-PAGE -->
-
-	<!-- loader -->
-	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-	
-	<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
-	<script src="{% static 'js/popper.min.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
-	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-	<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
-	<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-	<script src="{% static 'js/aos.js' %}"></script>
-	<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-	<script src="{% static 'js/scrollax.min.js' %}"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-	<script src="{% static 'js/google-map.js' %}"></script>
-	<script src="{% static 'js/main.js' %}"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
 </html>

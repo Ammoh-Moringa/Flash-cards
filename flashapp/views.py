@@ -1,16 +1,18 @@
-from django.shortcuts import render, redirect, HttpResponse
-from .models import FlashCard
-import random
-import csv
-from django.contrib import messages
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import deck, flashCard
+from .forms import CreateNewDeck, CreateflashCard
 
-def home(request):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id)
+def home(response):
+    if response.method == "POST":
+        form = CreateNewDeck(response.POST)
+        if form.is_valid():
+            n = form.cleaned_data["name"]
+            t = deck(name=n)
+            t.save()
+            response.user.deck.add(t)
+        return HttpResponseRedirect("/")
+    
     else:
-        all_cards = FlashCard.objects.all()
-    #cards = sorted(all_cards.order_by('front'), key=lambda x: random.random())
-  
-    return render(request, 'home.html')
+        form = CreateNewDeck()
+    return render(response, "home.html", {"form": form })
