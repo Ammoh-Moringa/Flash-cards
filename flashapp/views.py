@@ -37,3 +37,28 @@ def createFlash(response, id):
         form = CreateflashCard()
     context = {"id":id,"deck":s_deck, "form":form}
     return render(response, "flashcreate.html", context)
+
+
+def updateFlash(response, id):
+    card = get_object_or_404(flashCard, id=id)
+    initial_data = {
+            "question" : card.question,
+            "answer" : card.answer
+             }
+    form = CreateflashCard(response.POST or None, initial=initial_data)
+    context = {"form":form}
+    if not response.user.is_authenticated:
+        return HttpResponseRedirect("/")
+    elif card.deck not in response.user.deck.all():
+        return HttpResponseRedirect("/")
+    else:
+        if response.method == "POST":
+            form = CreateflashCard(response.POST)
+            if form.is_valid():
+                card.question = form.cleaned_data["question"]
+                card.answer = form.cleaned_data["answer"]
+                card.save()
+            #if response.POST.get("name") 
+           
+            return HttpResponseRedirect("/deck-%d" %card.deck.id)
+    return render(response, "flashupdate.html", context)
