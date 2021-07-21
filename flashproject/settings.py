@@ -77,12 +77,7 @@ WSGI_APPLICATION = 'flashproject.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'flashcards',
-        'USER': 'angela',
-    'PASSWORD':'Angie168',
-    }
+  
 }
 
 
