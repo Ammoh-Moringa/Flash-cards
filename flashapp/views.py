@@ -2,6 +2,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from flashapp.forms import CreateUserForm, ProfileForm
 from .models import Profile
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import  deck
+from .serializer import DeckSerializer
+from rest_framework import status
 
 
 # Create your views here.
@@ -120,3 +125,16 @@ def updateFlash(response, id):
            
             return HttpResponseRedirect("/deck-%d" %card.deck.id)
     return render(response, "flashupdate.html", context)
+
+class DeckList(APIView):
+    def get(self, request, format=None):
+        all_decks = deck.objects.all()
+        serializers = DeckSerializer(all_decks, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = DeckSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
