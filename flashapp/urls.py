@@ -10,5 +10,7 @@ urlpatterns=[
    path("createflash-<int:id>", views.createFlash, name = "createFlash" ),
    path("updateflash-<int:id>", views.updateFlash, name = "updateFlash" ),
    path('api/profilelist',views.ProfileList.as_view(),name='profileEndpoint'),
+   path('api/deck/', views.DeckList.as_view())
+
 ]
 
