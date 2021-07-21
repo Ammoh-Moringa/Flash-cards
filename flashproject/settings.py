@@ -80,9 +80,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'flashapp',
     'bootstrap5',
     'cloudinary',
+=======
+    'bootstrap5',
+    'crispy_forms',
+    'flashapp',
+    'cloudinary',
+    'rest_framework',
+<<<<<<< HEAD
+=======
+
+>>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
+>>>>>>> master
 ]
 
 MIDDLEWARE = [
@@ -119,7 +131,24 @@ WSGI_APPLICATION = 'flashproject.wsgi.application'
 
 
 # Database
+<<<<<<< HEAD
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+=======
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+DATABASES = {
+<<<<<<< HEAD
+  
+=======
+>>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'flashcard',   
+        'USER': 'angela',      
+        'PASSWORD':'Angie168',
+    }
+}
+>>>>>>> master
 
 
 # Password validation

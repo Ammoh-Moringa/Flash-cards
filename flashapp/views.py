@@ -1,48 +1,51 @@
+from flashapp.serializer import ProfileSerializer
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import deck, flashCard
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from flashapp.forms import CreateUserForm, ProfileForm
+from flashapp.forms import CreateNewDeck, CreateUserForm, CreateflashCard, ProfileForm
 from .models import Profile
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import flashCardSerializer
 from rest_framework import status
 # Create your views here.
+from .models import  deck
+from .serializer import DeckSerializer
+from rest_framework import status
+
 def registerPage(request):
     form = CreateUserForm()
-    
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('loginpage') 
+            return redirect('loginpage')
         name = form.cleaned_data.get("username")
         messages.success(request, 'Account was created for' , name)
     context = {'form':form, 'profile':profile}
     return render(request, 'accounts/register.html', context)
-
 def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
-
         user = authenticate(request,username=username,password=password)
-
         if user is not None:
             login(request,user)
-            return redirect('index')
+            return redirect('home')
         else:
             messages.info(request, 'Incorrect Username or Password')
     context = {}
     return render(request, 'accounts/login.html', context)
-
 def logoutpage(request):
     logout(request)
     return redirect('loginpage')
-
 def profile(request):
     try:
         profile = request.user.profile
-    except Profile.DoesNotExist:
+    except ProfileForm.DoesNotExist:
         profile = Profile(user=request.user)
     user = request.user
     if request.method == 'POST':
@@ -58,10 +61,6 @@ def profile(request):
         'prof_form': prof_form,
     }
     return render(request, 'profile.html', context)
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from .models import deck, flashCard
-from .forms import CreateNewDeck, CreateflashCard
 
 def home(response):
     if response.method == "POST":
@@ -82,9 +81,9 @@ def createFlash(response, id):
     form = CreateflashCard()
     s_deck = get_object_or_404(deck, id=id)
     if not response.user.is_authenticated:
-        return HttpResponseRedirect("/")
+         return HttpResponseRedirect("/")
     if s_deck not in response.user.deck.all():
-        return HttpResponseRedirect("/")
+         return HttpResponseRedirect("/")
     if response.method == "POST":
         form = CreateflashCard(response.POST)
         if form.is_valid():
@@ -136,3 +135,27 @@ class flashCardList(APIView):
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)    
 
+class ProfileList(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        profiles = Profile.objects.all()
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializers = ProfileSerializer(data=request.data)
+class DeckList(APIView):
+    def get(self, request, format=None):
+        all_decks = deck.objects.all()
+        serializers = DeckSerializer(all_decks, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = DeckSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
