@@ -36,4 +36,4 @@ def createFlash(response, id):
             card.save() 
         form = CreateflashCard()
     context = {"id":id,"deck":s_deck, "form":form}
-    return render(response, "main/flashcreate.html", context)
+    return render(response, "flashcreate.html", context)

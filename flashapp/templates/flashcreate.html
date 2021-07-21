@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}View List{% endblock %} 
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h3> Add a new FlashCard to the deck {{deck.name}}</h3>
+    <form method="post" action="#" class="form-group">
+        {% csrf_token %}
+
+        {{form|crispy}}
+        <button type="submit" class = "btn btn-primary mt-2" name = "continue"> Save and Continue</button>
+        <a class="btn btn-primary mt-2" href="/deck-{{deck.id}}" role="button">Back</a>
+    </form>
+{% else %}
+
+<p> Please <a href="/login">Login</a> to see your FlashCards</a>
+{% endif %}
+{% endblock %}
