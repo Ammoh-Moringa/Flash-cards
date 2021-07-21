@@ -4,19 +4,17 @@ from tinymce.models import HTMLField
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True, default='No bio')
-    profile= models.ImageField(upload_to = 'images/',default='SOME IMAGE')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    profile_pic = models.ImageField(upload_to='images/', default='default.png')
+    bio = models.TextField(max_length=500, default="My Bio", blank=True)
+    contact = models.CharField(max_length = 10,blank =True)
 
     def __str__(self):
-        return self.user.username
-    
+        return f'{self.user.username} Profile'
+
     def save_profile(self):
         self.save()
-
-    def delete_profile(self):
-        self.delete()
-
+    
     @classmethod
-    def search_profile(cls,name):
-        return cls.objects.filter(user__username__icontains=name).all()
+    def search_profile(cls,username):
+        return cls.objects.fiter(user__username__icontains = username).all()
