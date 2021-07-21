@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'bootstrap5',
     'crispy_forms',
     'flashapp',
-    'bootstrap4',
     'cloudinary',
     'rest_framework',
+<<<<<<< HEAD
+=======
+
+>>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
 ]
 
 MIDDLEWARE = [
@@ -80,12 +83,15 @@ WSGI_APPLICATION = 'flashproject.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+<<<<<<< HEAD
   
+=======
+>>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'flashcard',   
-        'USER': 'moringa',      
-        'PASSWORD':'Ammoh',
+        'USER': 'angela',      
+        'PASSWORD':'Angie168',
     }
 }
 
