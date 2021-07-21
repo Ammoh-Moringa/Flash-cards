@@ -9,6 +9,7 @@ urlpatterns=[
    path("home/", views.home, name = "home" ),
    path("createflash-<int:id>", views.createFlash, name = "createFlash" ),
    path("updateflash-<int:id>", views.updateFlash, name = "updateFlash" ),
+   path('api/flashCard/', views.flashCardList.as_view()),
    path('api/profilelist',views.ProfileList.as_view(),name='profileEndpoint'),
    path('api/deck/', views.DeckList.as_view())
 
