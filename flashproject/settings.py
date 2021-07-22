@@ -16,16 +16,16 @@ import dj_database_url
 from decouple import config,Csv
 
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+# import cloudinary
+# import cloudinary.uploader
+# import cloudinary.api
 
-cloudinary.config(
-  cloud_name = "jos254",
-  api_key = "888584575498376",
-  api_secret = "jS8SX99ro6Cecs2oUxLshigg5ug",
-  secure = True
-)
+# cloudinary.config(
+#   cloud_name = "jos254",
+#   api_key = "888584575498376",
+#   api_secret = "jS8SX99ro6Cecs2oUxLshigg5ug",
+#   secure = True
+# )
 
 
 MODE=config("MODE", default="dev")
@@ -47,10 +47,13 @@ if config('MODE')=="dev":
 # production
 else:
    DATABASES = {
-       'default': dj_database_url.config(
-           default=config('DATABASE_URL')
-       )
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'flashcard',   
+        'USER': 'moringa',      
+        'PASSWORD':'Ammoh',
+    }
+}
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -80,21 +83,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'flashapp',
-    'bootstrap5',
-    'cloudinary',
-=======
     'bootstrap5',
     'crispy_forms',
     'flashapp',
     'cloudinary',
     'rest_framework',
-<<<<<<< HEAD
-=======
-
->>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
->>>>>>> master
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -131,24 +125,7 @@ WSGI_APPLICATION = 'flashproject.wsgi.application'
 
 
 # Database
-<<<<<<< HEAD
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-=======
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-<<<<<<< HEAD
-  
-=======
->>>>>>> 18de43d0b432db371a13b9a1020d02b5f2bf5000
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'flashcard',   
-        'USER': 'angela',      
-        'PASSWORD':'Angie168',
-    }
-}
->>>>>>> master
 
 
 # Password validation
@@ -210,3 +187,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

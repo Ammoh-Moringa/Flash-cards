@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Question{% endblock %} 
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    <h3> {{ card.question }} </h3>
+    <p> {{ card.answer|linebreaks }} </p>
+
+    {% if last == False %}
+    
+    <p><a class="btn btn-primary" href="{{nextlink}}" role="button">Next Question</a></p>
+
+    {% else %}
+    <p><a class="btn btn-primary" href="{{nextlink}}" role="button">Deck Completed</a></p>
+    {% endif %}
+
+{% else %}
+    <p> Please <a href="/login">Login</a> to see your FlashCards</a>
+{% endif %}
+
+{% endblock %}

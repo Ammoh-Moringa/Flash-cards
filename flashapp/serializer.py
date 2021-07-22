@@ -4,13 +4,12 @@ from .models import *
 class flashCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = flashCard
-        fields = ('deck', 'question', 'answer')
+        fields = ('id','deck', 'question', 'answer')
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('profile_pic', 'bio', 'contact', 'user' )
-from .models import deck
+        fields = ('profile_pic', 'bio', 'contact', 'user')
 
 class DeckSerializer(serializers.ModelSerializer):
     class Meta:
